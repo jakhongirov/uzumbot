@@ -162,6 +162,20 @@ bot.on('contact', async (msg) => {
             const nextLessonDate = getDate()
             await model.editLesson(chatId, nextLessonDate, 1)
             await model.editStep(chatId, 'lesson_1')
+            bot.sendMessage(chatId, foundLesson.title, {
+               reply_markup: {
+                  keyboard: [
+                     [{
+                        text: localText.channelBtn,
+                     }],
+                     [{
+                        text: localText.contactAdminBtn,
+                     }],
+                  ],
+                  resize_keyboard: true
+               },
+               parse_mode: 'HTML'
+            })
          }).catch(e => console.log(e))
       }
    }
@@ -191,24 +205,26 @@ bot.on('callback_query', async (msg) => {
       const lessonOrder = data?.split('lesson_')[1]
       const foundLesson = lessons.find(e => e.order == lessonOrder)
 
-      bot.sendPhoto(chatId, fs.readFileSync(foundLesson.path), {
-         reply_markup: {
-            keyboard: [
-               [{
-                  text: localText.channelBtn,
-               }],
-               [{
-                  text: localText.contactAdminBtn,
-               }],
-            ],
-            resize_keyboard: true
-         },
-         caption: foundLesson.title
-      }).then(async () => {
-         const nextLessonDate = getDate()
-         await model.editLesson(chatId, nextLessonDate, lessonOrder)
-         await model.editStep(chatId, `lesson_${lessonOrder}`)
-      }).catch(e => console.log(e))
+      bot.copyMessage(chatId, process.env.CHANNEL_ID, foundLesson?.message_id)
+         .then(async () => {
+            const nextLessonDate = getDate()
+            await model.editLesson(chatId, nextLessonDate, lessonOrder)
+            await model.editStep(chatId, `lesson_${lessonOrder}`)
+            bot.sendMessage(chatId, foundLesson.title, {
+               reply_markup: {
+                  keyboard: [
+                     [{
+                        text: localText.channelBtn,
+                     }],
+                     [{
+                        text: localText.contactAdminBtn,
+                     }],
+                  ],
+                  resize_keyboard: true
+               },
+               parse_mode: 'HTML'
+            })
+         }).catch(e => console.log(e))
    } else if (data.startsWith('like_')) {
       const lessonOrder = data?.split('like_')[1]
       const foundLesson = lessons.find(e => e.order == lessonOrder)
@@ -217,25 +233,27 @@ bot.on('callback_query', async (msg) => {
          bot.sendMessage(chatId, localText.networkGroup)
       }
 
-      bot.sendPhoto(chatId, fs.readFileSync(foundLesson.path), {
-         reply_markup: {
-            keyboard: [
-               [{
-                  text: localText.channelBtn,
-               }],
-               [{
-                  text: localText.contactAdminBtn,
-               }],
-            ],
-            resize_keyboard: true
-         },
-         caption: foundLesson.title
-      }).then(async () => {
-         const nextLessonDate = getDate()
-         await model.editLesson(chatId, nextLessonDate, lessonOrder)
-         await model.editStep(chatId, `lesson_${lessonOrder}`)
-         await model.addLike(chatId, 1)
-      }).catch(e => console.log(e))
+      bot.copyMessage(chatId, process.env.CHANNEL_ID, foundLesson?.message_id)
+         .then(async () => {
+            const nextLessonDate = getDate()
+            await model.editLesson(chatId, nextLessonDate, lessonOrder)
+            await model.editStep(chatId, `lesson_${lessonOrder}`)
+            await model.addLike(chatId, 1)
+            bot.sendMessage(chatId, foundLesson.title, {
+               reply_markup: {
+                  keyboard: [
+                     [{
+                        text: localText.channelBtn,
+                     }],
+                     [{
+                        text: localText.contactAdminBtn,
+                     }],
+                  ],
+                  resize_keyboard: true
+               },
+               parse_mode: 'HTML'
+            })
+         }).catch(e => console.log(e))
 
    } else if (data.startsWith('dislike_')) {
       const lessonOrder = data?.split('dislike_')[1]
@@ -245,25 +263,27 @@ bot.on('callback_query', async (msg) => {
          bot.sendMessage(chatId, localText.networkGroup)
       }
 
-      bot.sendPhoto(chatId, fs.readFileSync(foundLesson.path), {
-         reply_markup: {
-            keyboard: [
-               [{
-                  text: localText.channelBtn,
-               }],
-               [{
-                  text: localText.contactAdminBtn,
-               }],
-            ],
-            resize_keyboard: true
-         },
-         caption: foundLesson.title
-      }).then(async () => {
-         const nextLessonDate = getDate()
-         await model.editLesson(chatId, nextLessonDate, lessonOrder)
-         await model.editStep(chatId, `lesson_${lessonOrder}`)
-         await model.addLike(chatId, 2)
-      }).catch(e => console.log(e))
+      bot.copyMessage(chatId, process.env.CHANNEL_ID, foundLesson?.message_id)
+         .then(async () => {
+            const nextLessonDate = getDate()
+            await model.editLesson(chatId, nextLessonDate, lessonOrder)
+            await model.editStep(chatId, `lesson_${lessonOrder}`)
+            await model.addLike(chatId, 2)
+            bot.sendMessage(chatId, foundLesson.title, {
+               reply_markup: {
+                  keyboard: [
+                     [{
+                        text: localText.channelBtn,
+                     }],
+                     [{
+                        text: localText.contactAdminBtn,
+                     }],
+                  ],
+                  resize_keyboard: true
+               },
+               parse_mode: 'HTML'
+            })
+         }).catch(e => console.log(e))
 
    } else if (data == 'start_pay') {
       bot.sendMessage(chatId, localText.payText2, {

@@ -61,25 +61,27 @@ module.exports = {
             if (editUserPaid) {
                const foundLesson = lessons.find(e => e.order == Number(editUserPaid?.lesson + 1))
 
-               bot.sendPhoto(editUserPaid?.chat_id, fs.readFileSync(foundLesson.path), {
-                  reply_markup: {
-                     keyboard: [
-                        [{
-                           text: localText.channelBtn,
-                        }],
-                        [{
-                           text: localText.contactAdminBtn,
-                        }],
-                     ],
-                     resize_keyboard: true
-                  },
-                  caption: foundLesson.title
-               }).then(async () => {
-                  const nextLessonDate = getDate()
-                  await model.editLesson(editUserPaid?.chat_id, nextLessonDate, lessonOrder)
-                  await model.editStep(editUserPaid?.chat_id, `lesson_${lessonOrder}`)
-                  await model.addLike(editUserPaid?.chat_id, 1)
-               }).catch(e => console.log(e))
+               bot.copyMessage(editUserPaid?.chat_id, process.env.CHANNEL_ID, foundLesson?.message_id)
+                  .then(async () => {
+                     const nextLessonDate = getDate()
+                     await model.editLesson(editUserPaid?.chat_id, nextLessonDate, Number(editUserPaid?.lesson + 1))
+                     await model.editStep(editUserPaid?.chat_id, `lesson_${Number(editUserPaid?.lesson + 1)}`)
+                     await model.addLike(editUserPaid?.chat_id, 1)
+                     bot.sendMessage(chatId, foundLesson.title, {
+                        reply_markup: {
+                           keyboard: [
+                              [{
+                                 text: localText.channelBtn,
+                              }],
+                              [{
+                                 text: localText.contactAdminBtn,
+                              }],
+                           ],
+                           resize_keyboard: true
+                        },
+                        parse_mode: 'HTML'
+                     })
+                  }).catch(e => console.log(e))
             }
          }
 

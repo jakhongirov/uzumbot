@@ -10,6 +10,7 @@
 	},
 	{
 		"id": 2,
+		"message_id": 4,
 		"title": "2-chi nimadir darsde",
 		"text": "nimadr nimadr nimadr nimadrde",
 		"path": "./lessons/lesson2.jpg",
@@ -18,6 +19,7 @@
 	},
 	{
 		"id": 3,
+		"message_id": 5,
 		"title": "3-chi nimadir darsde",
 		"text": "nimadr nimadr nimadr nimadrde",
 		"path": "./lessons/lesson3.jpg",
@@ -26,6 +28,7 @@
 	},
 	{
 		"id": 4,
+		"message_id": 6,
 		"title": "4-chi nimadir darsde",
 		"text": "nimadr nimadr nimadr nimadrde",
 		"path": "./lessons/lesson4.jpg",
@@ -34,6 +37,7 @@
 	},
 	{
 		"id": 5,
+		"message_id": 7,
 		"title": "5-chi nimadir darsde",
 		"text": "nimadr nimadr nimadr nimadrde",
 		"path": "./lessons/lesson5.jpg",
@@ -42,6 +46,7 @@
 	},
 	{
 		"id": 6,
+		"message_id": 4,
 		"title": "6-chi nimadir darsde",
 		"text": "nimadr nimadr nimadr nimadrde",
 		"path": "./lessons/lesson2.jpg",
