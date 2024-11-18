@@ -1,0 +1,51 @@
+[
+	{
+		"id": 1,
+		"title": "1-chi nimadir darsde",
+		"text": "nimadr nimadr nimadr nimadrde",
+		"path": "./lessons/lesson1.jpg",
+		"order": 1,
+		"free": true
+	},
+	{
+		"id": 2,
+		"title": "2-chi nimadir darsde",
+		"text": "nimadr nimadr nimadr nimadrde",
+		"path": "./lessons/lesson2.jpg",
+		"order": 2,
+		"free": true
+	},
+	{
+		"id": 3,
+		"title": "3-chi nimadir darsde",
+		"text": "nimadr nimadr nimadr nimadrde",
+		"path": "./lessons/lesson3.jpg",
+		"order": 3,
+		"free": true
+	},
+	{
+		"id": 4,
+		"title": "4-chi nimadir darsde",
+		"text": "nimadr nimadr nimadr nimadrde",
+		"path": "./lessons/lesson4.jpg",
+		"order": 4,
+		"free": true
+	},
+	{
+		"id": 5,
+		"title": "5-chi nimadir darsde",
+		"text": "nimadr nimadr nimadr nimadrde",
+		"path": "./lessons/lesson5.jpg",
+		"order": 5,
+		"free": true
+	},
+	{
+		"id": 6,
+		"title": "6-chi nimadir darsde",
+		"text": "nimadr nimadr nimadr nimadrde",
+		"path": "./lessons/lesson2.jpg",
+		"order": 6,
+		"free": false
+	}
+]
+
