@@ -1,6 +1,11 @@
 const model = require('./model')
 const iconv = require('iconv-lite');
 const axios = require("axios")
+const fs = require('fs')
+const { bot } = require('../../lib/bot')
+const { getDate } = require('../../lib/functions')
+const lessons = require('../../../lessons.json')
+const localText = require('../../text/text.json')
 
 module.exports = {
    Prepare: async (req, res) => {
@@ -50,8 +55,32 @@ module.exports = {
          if (error_note === 'Success') {
             const foundTrans = await model.foundTrans(click_trans_id)
             const foundUser = await model.foundUser(foundTrans?.user_id)
-            await model.editUserPaid(foundUser, "click")
+            const editUserPaid = await model.editUserPaid(foundUser, "click")
             await model.editTrans(click_trans_id, 'paid')
+
+            if (editUserPaid) {
+               const foundLesson = lessons.find(e => e.order == Number(editUserPaid?.lesson + 1))
+
+               bot.sendPhoto(editUserPaid?.chat_id, fs.readFileSync(foundLesson.path), {
+                  reply_markup: {
+                     keyboard: [
+                        [{
+                           text: localText.channelBtn,
+                        }],
+                        [{
+                           text: localText.contactAdminBtn,
+                        }],
+                     ],
+                     resize_keyboard: true
+                  },
+                  caption: foundLesson.title
+               }).then(async () => {
+                  const nextLessonDate = getDate()
+                  await model.editLesson(editUserPaid?.chat_id, nextLessonDate, lessonOrder)
+                  await model.editStep(editUserPaid?.chat_id, `lesson_${lessonOrder}`)
+                  await model.addLike(editUserPaid?.chat_id, 1)
+               }).catch(e => console.log(e))
+            }
          }
 
          return res.status(200).json({

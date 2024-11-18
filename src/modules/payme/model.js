@@ -160,6 +160,47 @@ const updateTransactionState = (
       currentTime
    )
 };
+const editStep = (chatId, step) => {
+   const QUERY = `
+      UPDATE
+         users
+      SET
+         step = $2
+      WHERE
+         chat_id = $1
+      RETURNING *;
+   `;
+
+   return fetch(QUERY, chatId, step)
+}
+const editLesson = (chatId, nextLessonDate, lesson) => {
+   const QUERY = `
+      UPDATE
+         users
+      SET
+         lesson_date = $2,
+         lesson = $3
+      WHERE
+         chat_id = $1
+      RETURNING *;
+   `
+
+   return fetch(QUERY, chatId, nextLessonDate, lesson)
+}
+const addLike = (chatId, action) => {
+   const QUERY = `
+      INSERT INTO 
+         actions (
+            user_id,
+            action
+         ) VALUES (
+            $1, 
+            $2 
+         ) RETURNING *;
+   `;
+
+   return fetch(QUERY, chatId, action)
+}
 
 module.exports = {
    foundUser,
@@ -169,5 +210,8 @@ module.exports = {
    updateTransactionPerform,
    updateTransactionPaid,
    editUserPaid,
-   updateTransactionState
+   updateTransactionState,
+   editStep,
+   editLesson,
+   addLike
 }
