@@ -105,6 +105,12 @@ bot.onText(/\/start ?(.*)?/, async (msg, match) => {
    }
 })
 
+bot.on('channel_post', (msg) => {
+   console.log('Channel post:', msg);
+   const messageId = msg.message_id;
+   console.log(`Channel Message ID: ${messageId}`);
+});
+
 bot.on('contact', async (msg) => {
    const chatId = msg.chat.id;
    const foundUser = await model.foundUser(chatId)
