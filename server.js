@@ -143,20 +143,22 @@ bot.on('contact', async (msg) => {
       if (addPhoneUser) {
          const foundLesson = lessons.find(e => e.order == 1)
 
-         bot.sendPhoto(chatId, fs.readFileSync(foundLesson.path), {
-            reply_markup: {
-               keyboard: [
-                  [{
-                     text: localText.channelBtn,
-                  }],
-                  [{
-                     text: localText.contactAdminBtn,
-                  }],
-               ],
-               resize_keyboard: true
-            },
-            caption: foundLesson.title
-         }).then(async () => {
+         // bot.sendPhoto(chatId, fs.readFileSync(foundLesson.path), {
+         //    reply_markup: {
+         //       keyboard: [
+         //          [{
+         //             text: localText.channelBtn,
+         //          }],
+         //          [{
+         //             text: localText.contactAdminBtn,
+         //          }],
+         //       ],
+         //       resize_keyboard: true
+         //    },
+         //    caption: foundLesson.title
+         // })
+
+         bot.forwardMessage(process.env.CHANNEL_ID, chatId, foundLesson?.message_id).then(async () => {
             const nextLessonDate = getDate()
             await model.editLesson(chatId, nextLessonDate, 1)
             await model.editStep(chatId, 'lesson_1')
