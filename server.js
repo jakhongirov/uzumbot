@@ -62,22 +62,27 @@ bot.onText(/\/start ?(.*)?/, async (msg, match) => {
       } else if (foundUser?.lesson > 0) {
          const foundLesson = lessons.find(e => e.order == foundUser?.lesson)
 
-         bot.sendPhoto(chatId, fs.readFileSync(foundLesson.path), {
-            reply_markup: {
-               keyboard: [
-                  [{
-                     text: localText.channelBtn,
-                  }],
-                  [{
-                     text: localText.contactAdminBtn,
-                  }],
-               ],
-               resize_keyboard: true
-            },
-            caption: foundLesson.title
-         }).then(async () => {
-            await model.editStep(chatId, `lesson_${foundUser?.lesson}`)
-         }).catch(e => console.log(e))
+         bot.copyMessage(chatId, process.env.CHANNEL_ID, foundLesson?.message_id)
+            .then(async () => {
+               const nextLessonDate = getDate()
+               await model.editLesson(chatId, nextLessonDate, foundUser?.lesson)
+               await model.editStep(chatId, `lesson_${foundUser?.lesson}`)
+               await model.addLike(chatId, 2)
+               bot.sendMessage(chatId, foundLesson.title, {
+                  reply_markup: {
+                     keyboard: [
+                        [{
+                           text: localText.channelBtn,
+                        }],
+                        [{
+                           text: localText.contactAdminBtn,
+                        }],
+                     ],
+                     resize_keyboard: true
+                  },
+                  parse_mode: 'HTML'
+               })
+            }).catch(e => console.log(e))
       }
    } else {
       bot.sendMessage(chatId, localText.startTextFromBot, {
