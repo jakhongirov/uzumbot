@@ -158,7 +158,7 @@ bot.on('contact', async (msg) => {
          //    caption: foundLesson.title
          // })
 
-         bot.forwardMessage(process.env.CHANNEL_ID, chatId, foundLesson?.message_id).then(async () => {
+         bot.forwardMessage(chatId, process.env.CHANNEL_ID, foundLesson?.message_id).then(async () => {
             const nextLessonDate = getDate()
             await model.editLesson(chatId, nextLessonDate, 1)
             await model.editStep(chatId, 'lesson_1')
