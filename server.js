@@ -4,6 +4,7 @@ const cors = require("cors");
 const path = require('path');
 const fs = require('fs');
 const app = express();
+const router = require("./src/modules");
 const localText = require('./src/text/text.json');
 const lessons = require('./lessons.json');
 const {
@@ -323,9 +324,8 @@ app.use(express.urlencoded({
    extended: true
 }));
 app.use('/public', express.static(path.resolve(__dirname, 'public')))
-// app.use("/api/v1", router);
+app.use("/api/v1", router);
 
-// Job that runs every 2 minutes
 const job = new CronJob('*/1 * * * *', async () => {
    await sendLessons()
 });
@@ -333,4 +333,4 @@ const job = new CronJob('*/1 * * * *', async () => {
 // Start the job
 job.start();
 
-app.listen(8000, console.log(8000))
+app.listen(9000, console.log(9000))
